@@ -1,4 +1,4 @@
-// +build !windows,!solaris
+// +build !windows
 
 package archive
 
@@ -8,7 +8,6 @@ import (
 	"sync"
 	"syscall"
 
-	"github.com/containerd/continuity/sysx"
 	"github.com/opencontainers/runc/libcontainer/system"
 	"github.com/pkg/errors"
 )
@@ -121,13 +120,9 @@ func handleLChmod(hdr *tar.Header, path string, hdrInfo os.FileInfo) error {
 }
 
 func getxattr(path, attr string) ([]byte, error) {
-	b, err := sysx.LGetxattr(path, attr)
-	if err == syscall.ENOTSUP || err == sysx.ENODATA {
-		return nil, nil
-	}
-	return b, err
+	return nil, nil
 }
 
 func setxattr(path, key, value string) error {
-	return sysx.LSetxattr(path, key, []byte(value), 0)
+	return nil
 }

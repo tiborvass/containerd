@@ -1,4 +1,4 @@
-// +build darwin freebsd linux
+// +build darwin freebsd linux solaris
 
 package console
 
