@@ -29,7 +29,7 @@ func (s *Supervisor) addProcess(t *AddProcessTask) error {
 	if !ok {
 		return ErrContainerNotFound
 	}
-	process, err := ci.container.Exec(t.Ctx, t.PID, *t.ProcessSpec, runtime.NewStdio(t.Stdin, t.Stdout, t.Stderr))
+	process, err := ci.container.Exec(t.Ctx, t.PID, t.ProcessSpec, runtime.NewStdio(t.Stdin, t.Stdout, t.Stderr))
 	if err != nil {
 		return err
 	}

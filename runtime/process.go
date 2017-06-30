@@ -39,7 +39,7 @@ type Process interface {
 	// has not exited
 	ExitStatus() (uint32, error)
 	// Spec returns the process spec that created the process
-	Spec() specs.ProcessSpec
+	Spec() *specs.ProcessSpec
 	// Signal sends the provided signal to the process
 	Signal(os.Signal) error
 	// Container returns the container that the process belongs to
@@ -86,7 +86,7 @@ func newProcess(config *processConfig) (*process, error) {
 	defer f.Close()
 
 	ps := ProcessState{
-		ProcessSpec: config.processSpec,
+		ProcessSpec: *config.processSpec,
 		Exec:        config.exec,
 		PlatformProcessState: PlatformProcessState{
 			Checkpoint: config.checkpoint,
@@ -121,7 +121,7 @@ func loadProcess(root, id string, c *container, s *ProcessState) (*process, erro
 		root:      root,
 		id:        id,
 		container: c,
-		spec:      s.ProcessSpec,
+		spec:      &s.ProcessSpec,
 		stdio: Stdio{
 			Stdin:  s.Stdin,
 			Stdout: s.Stdout,
@@ -192,7 +192,7 @@ type process struct {
 	exitPipe    *os.File
 	controlPipe *os.File
 	container   *container
-	spec        specs.ProcessSpec
+	spec        *specs.ProcessSpec
 	stdio       Stdio
 	cmd         *exec.Cmd
 	cmdSuccess  bool
@@ -331,7 +331,7 @@ func (p *process) ExitStatus() (rst uint32, rerr error) {
 	return uint32(i), err
 }
 
-func (p *process) Spec() specs.ProcessSpec {
+func (p *process) Spec() *specs.ProcessSpec {
 	return p.spec
 }
 

@@ -28,7 +28,7 @@ type Container interface {
 	// Start starts the init process of the container
 	Start(ctx context.Context, checkpointPath string, s Stdio) (Process, error)
 	// Exec starts another process in an existing container
-	Exec(context.Context, string, specs.ProcessSpec, Stdio) (Process, error)
+	Exec(context.Context, string, *specs.ProcessSpec, Stdio) (Process, error)
 	// Delete removes the container's state and any resources
 	Delete() error
 	// Processes returns all the containers processes that have been added
@@ -434,7 +434,7 @@ func (c *container) Start(ctx context.Context, checkpointPath string, s Stdio) (
 		c:           c,
 		stdio:       s,
 		spec:        spec,
-		processSpec: specs.ProcessSpec(spec.Process),
+		processSpec: (*specs.ProcessSpec)(spec.Process),
 	}
 	p, err := newProcess(config)
 	if err != nil {
@@ -446,7 +446,7 @@ func (c *container) Start(ctx context.Context, checkpointPath string, s Stdio) (
 	return p, nil
 }
 
-func (c *container) Exec(ctx context.Context, pid string, pspec specs.ProcessSpec, s Stdio) (pp Process, err error) {
+func (c *container) Exec(ctx context.Context, pid string, pspec *specs.ProcessSpec, s Stdio) (pp Process, err error) {
 	processRoot := filepath.Join(c.root, c.id, pid)
 	if err := os.Mkdir(processRoot, 0755); err != nil {
 		return nil, err
