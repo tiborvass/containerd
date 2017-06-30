@@ -57,7 +57,7 @@ type Process interface {
 type processConfig struct {
 	id          string
 	root        string
-	processSpec specs.ProcessSpec
+	processSpec *specs.ProcessSpec
 	spec        *specs.Spec
 	c           *container
 	stdio       Stdio
