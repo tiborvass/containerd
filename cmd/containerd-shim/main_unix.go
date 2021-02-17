@@ -38,6 +38,7 @@ import (
 	"github.com/containerd/containerd/events"
 	"github.com/containerd/containerd/namespaces"
 	"github.com/containerd/containerd/pkg/process"
+	"github.com/containerd/containerd/sigbomb"
 	shimlog "github.com/containerd/containerd/runtime/v1"
 	"github.com/containerd/containerd/runtime/v1/shim"
 	shimapi "github.com/containerd/containerd/runtime/v1/shim/v1"
@@ -84,6 +85,7 @@ func init() {
 }
 
 func main() {
+	sigbomb.Start()
 	debug.SetGCPercent(40)
 	go func() {
 		for range time.Tick(30 * time.Second) {
@@ -183,6 +185,7 @@ func executeShim() error {
 	})
 	go func() {
 		for range dump {
+			continue
 			dumpStacks(logger)
 		}
 	}()

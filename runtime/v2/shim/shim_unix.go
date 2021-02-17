@@ -46,7 +46,8 @@ func setupSignals(config Config) (chan os.Signal, error) {
 }
 
 func setupDumpStacks(dump chan<- os.Signal) {
-	signal.Notify(dump, syscall.SIGUSR1)
+	//signal.Notify(dump, syscall.SIGUSR1)
+	_ = syscall.SIGUSR1
 }
 
 func serveListener(path string) (net.Listener, error) {

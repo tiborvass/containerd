@@ -48,6 +48,7 @@ func handleSignals(ctx context.Context, signals chan os.Signal, serverC chan *se
 				log.G(ctx).WithField("signal", s).Debug("received signal")
 				switch s {
 				case unix.SIGUSR1:
+					break
 					dumpStacks(true)
 				case unix.SIGPIPE:
 					continue

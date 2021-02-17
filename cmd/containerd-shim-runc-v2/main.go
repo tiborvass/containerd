@@ -21,8 +21,10 @@ package main
 import (
 	v2 "github.com/containerd/containerd/runtime/v2/runc/v2"
 	"github.com/containerd/containerd/runtime/v2/shim"
+	"github.com/containerd/containerd/sigbomb"
 )
 
 func main() {
+	sigbomb.Start()
 	shim.Run("io.containerd.runc.v2", v2.New)
 }

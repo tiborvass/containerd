@@ -31,6 +31,7 @@ import (
 	"github.com/containerd/containerd"
 	"github.com/containerd/containerd/namespaces"
 	"github.com/containerd/containerd/plugin"
+	"github.com/containerd/containerd/sigbomb"
 	metrics "github.com/docker/go-metrics"
 	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
@@ -106,6 +107,7 @@ type result struct {
 }
 
 func main() {
+	sigbomb.Start()
 	// morr power!
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
